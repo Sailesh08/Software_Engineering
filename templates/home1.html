@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="../static/images/favicon.png" type="">
+
+  <title> Skin Disease Prediction </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- font awesome style -->
+  <link href="../static/css/font-awesome.min.css" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="../static/css/responsive.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <div class="hero_area">
+
+    <div class="hero_bg_box">
+      <img src="../static/images/hero-bg.png" alt="">
+    </div>
+
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="index.html">
+            <span>
+              Skin Disease Prediction
+            </span>
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="doc.html"> Doctor</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="login.html">Patient</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="home.html">Chat</a>
+              </li>
+              <form class="form-inline">
+                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+              </form>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+    <!-- slider section -->
+    <section class="msger">
+        <header class="msger-header">
+          <div class="msger-header-title">
+            </i>CHATBOT </i>
+          </div>
+        </header>
+    
+        <main class="msger-chat">
+          <div class="msg left-msg">
+            <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div>
+    
+            <div class="msg-bubble">
+              <div class="msg-info">
+                <div class="msg-info-name"><h2>CHATBOT</h2></div>
+                <div class="msg-info-time"></div>
+              </div>
+    
+              <div class="msg-text">
+                Hi, welcome to Online Doctor-CHATBOT!  😄
+              </div>
+              <div class="msg-text">
+                you can ask me anything related about our Doctors and many more....
+              </div>
+            </div>
+          </div>
+    
+        </main>
+    
+        <form class="msger-inputarea">
+          <input type="text" class="msger-input" id="speechToText" placeholder="Enter your message...">
+          <button type="button" name="button" class="mic" onclick="record()"></button>
+          <button type="submit" class="msger-send-btn">Send</button>
+        </form>
+      </section>
+      <!-- partial -->
+      <script src='https://use.fontawesome.com/releases/v5.0.13/js/all.js'></script>
+      <script>
+    
+        const msgerForm = get(".msger-inputarea");
+        const msgerInput = get(".msger-input");
+        const msgerChat = get(".msger-chat");
+    
+    
+        // Icons made by Freepik from www.flaticon.com
+        const BOT_IMG = "https://image.flaticon.com/icons/svg/327/327779.svg";
+        const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
+        const BOT_NAME = "CHATBOT";
+        const PERSON_NAME = "You";
+    
+        msgerForm.addEventListener("submit", event => {
+          event.preventDefault();
+    
+          const msgText = msgerInput.value;
+          if (!msgText) return;
+    
+          appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+          msgerInput.value = "";
+          botResponse(msgText);
+        });
+    
+        function appendMessage(name, img, side, text) {
+          //   Simple solution for small apps
+          const msgHTML = `
+    <div class="msg ${side}-msg">
+      <div class="msg-img" style="background-image: url(${img})"></div>
+    
+      <div class="msg-bubble">
+        <div class="msg-info">
+          <div class="msg-info-name">${name}</div>
+          <div class="msg-info-time">${formatDate(new Date())}</div>
+        </div>
+    
+        <div class="msg-text">${text}</div>
+      </div>
+    </div>
+    `;
+    
+          msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+          msgerChat.scrollTop += 500;
+        }
+    
+        function botResponse(rawText) {
+    
+          // Bot Response
+          $.get("/get", { msg: rawText }).done(function (data) {
+            console.log(rawText);
+            console.log(data);
+            const msgText = data;
+            appendMessage(BOT_NAME, BOT_IMG, "left", msgText);
+    
+          });
+    
+        }
+    
+    
+        // Utils
+        function get(selector, root = document) {
+          return root.querySelector(selector);
+        }
+    
+        function formatDate(date) {
+          const h = "0" + date.getHours();
+          const m = "0" + date.getMinutes();
+    
+          return `${h.slice(-2)}:${m.slice(-2)}`;
+        }
+    
+    
+    
+      </script>
+    <script>
+        //webkitSpeechRecognition api for speech to text conversion
+        function record(){
+            var recognition = new webkitSpeechRecognition();
+            recognition.lang='en-IN';
+    
+            recognition.onresult = function(event){
+                console.log(event)
+                document.getElementById('speechToText').value = event.results[0][0].transcript;
+            }
+            recognition.start();
+         }
+        function play()
+        {
+            var videoSource = new Array();
+            var	videos = document.getElementById("list").getElementsByTagName("li");
+            var j;
+            for(j=0;j<videos.length;j++)
+            {
+                videoSource[j] = "/static/" + videos[j].innerHTML +".mp4";
+            }
+    
+            var i = 0; // define i
+            var videoCount = videoSource.length;
+    
+            function videoPlay(videoNum)
+            {
+                document.getElementById("list").getElementsByTagName("li")[videoNum].style.color = "#09edc7";
+                document.getElementById("list").getElementsByTagName("li")[videoNum].style.fontSize = "xx-large";
+                document.getElementById("videoPlayer").setAttribute("src", videoSource[videoNum]);
+                document.getElementById("videoPlayer").load();
+                document.getElementById("videoPlayer").play();
+    
+            }
+            document.getElementById('videoPlayer').addEventListener('ended', myHandler, false);
+            document.getElementById("list").getElementsByTagName("li")[0].style.color = "#09edc7";
+            document.getElementById("list").getElementsByTagName("li")[0].style.fontSize = "xx-large";
+    
+            videoPlay(0); // play the video
+    
+            function myHandler()
+            {
+                 document.getElementById("list").getElementsByTagName("li")[i].style.color = "#feda6a";
+                document.getElementById("list").getElementsByTagName("li")[i].style.fontSize = "20px";
+                i++;
+                if (i == videoCount)
+                {
+                       document.getElementById("videoPlayer").pause();
+                }
+                 else
+                 {
+                    videoPlay(i);
+                }
+            }
+        }
+        /* LETS USE ONLY PLAY PAUSE BUTTON WITH 720 *420 ,IT FITS THE SCREEN
+        function makeBig() {
+            document.getElementById("videoPlayer").width = 560;
+            document.getElementById("videoPlayer").height = 360;
+        }
+    
+        function makeSmall() {
+            document.getElementById("videoPlayer").width = 320;
+            document.getElementById("videoPlayer").height = 180;
+        }
+    
+        function makeNormal() {
+            document.getElementById("videoPlayer").width = 420;
+            document.getElementById("videoPlayer").height =280;
+        }*/
+        function playPause(){
+              if (document.getElementById("videoPlayer").paused){
+                play();}
+              else{
+                document.getElementById("videoPlayer").pause();}
+            }
+    
+        </script>
+    
+    
+        <!-- /Section: intro -->
+    
+        <!-- Section: boxes -->
+        
+        <!-- /Section: boxes -->
+    
+    
+       
+    
+        <!-- Section: services -->
+         
+        <!-- /Section: services -->
+    
+    
+        <!-- Section: team -->
+       
+        <!-- /Section: team -->
+    
+        <!-- /Section: works -->
+    
+    
+    
+        
+      
+    
+      <!-- Core JavaScript Files -->
+      <script src="js/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/jquery.easing.min.js"></script>
+      <script src="js/wow.min.js"></script>
+      <script src="js/jquery.scrollTo.js"></script>
+      <script src="js/jquery.appear.js"></script>
+      <script src="js/stellar.js"></script>
+      <script src="plugins/cubeportfolio/js/jquery.cubeportfolio.min.js"></script>
+      <script src="js/owl.carousel.min.js"></script>
+      <script src="js/nivo-lightbox.min.js"></script>
+      <script src="js/custom.js"></script>
+
+</body>
+
+</html>

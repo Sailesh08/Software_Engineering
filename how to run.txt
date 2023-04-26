@@ -1,0 +1,31 @@
+how to run 
+
+open anaconda prompt form search
+
+type 
+
+conda activate tf ( enter )
+
+type 
+
+cd diabetic-retinopathy ( enter )
+
+type
+
+python app.py ( enter u will get ip address copy this link and paste in chrome http://127.0.0.1:5000/ ) 
+
+
+website will open register login upload image from this path C:\Users\DELL\diabetic-retinopathy\static\img
+
+click predict u will get resut graph will store in this folde 
+
+C:\Users\DELL\diabetic-retinopathy
+
+u can run jupier file 
+
+ipython notebook Untitled.ipynb  to check graph and given u r own input image in path
+
+to run cnn code
+
+ipython notebook CNN.ipynb ( enter ) 
+
